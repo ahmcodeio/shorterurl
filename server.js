@@ -3,9 +3,12 @@ const mongoose = require('mongoose')
 const ShortUrl = require('./models/shortUrl')
 const app = express()
 
-mongoose.connect('mongodb://localhost/urlShortener', {
+mongoose.connect('mongodb+srv://ahm:coba123@cluster0.5kije.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+, {
     useNewUrlParser: true, useUnifiedTopology: true
-})
+}
+).then(() => console.log('sukses'))
+.catch((e) => console.log(e))
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({extended:false}))
@@ -22,7 +25,7 @@ app.post('/shortUrls', async (req, res) => {
 })
 
 app.get('/:shortUrl', async (req, res) => {
-    const shortUrl = await ShortUrl.findOne({short: req.param.shortUrl})
+    const shortUrl = await ShortUrl.findOne({short: req.params.shortUrl})
     if (shortUrl == null) return res.sendStatus(404)
 
     shortUrl.clicks++
